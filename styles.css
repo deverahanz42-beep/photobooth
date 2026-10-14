@@ -18,7 +18,7 @@
   text-rendering: optimizeLegibility;
 }
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 340px; }
+body { margin: 0; min-width: 320px; }
 html { min-height: 100%; }
 body { min-height: 100vh; min-height: 100dvh; }
 button, select, input { font: inherit; }
@@ -63,11 +63,13 @@ h1 em { color: var(--rose-dark); font-weight: 500; }
 .workflow-step.complete { color: #71856e; }
 .workflow-step.complete .workflow-step-number { border-color: #cbd8c6; background: #edf3e9; color: #71856e; }
 .workflow-connector { flex: 0 0 35px; height: 1px; background: #e8e1da; }
+.workflow-connector.complete { background: #a9bea1; }
 .workflow-context { margin: 0 auto 18px; color: #91877e; font-size: 10px; text-align: center; }
 .frame-step-content, .capture-step-content { min-width: 0; }
 .stage-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 15px; }
 .stage-button { min-height: 36px; padding: 9px 13px; border: 1px solid #e6ddd5; border-radius: 5px; background: #fffdfa; color: #786e64; font-size: 10px; font-weight: 700; cursor: pointer; }
 .stage-button:hover { border-color: #d5b7ab; }
+.stage-button:active, .capture-button:active, .category-tab:active { transform: translateY(1px); }
 .primary-stage-button { border-color: var(--rose); background: var(--rose); color: white; }
 .primary-stage-button:hover { border-color: var(--rose-dark); background: var(--rose-dark); }
 .final-navigation { justify-content: flex-start; }
@@ -112,7 +114,9 @@ h1 em { color: var(--rose-dark); font-weight: 500; }
 .frame-card { position: relative; min-width: 0; padding: 7px; border: 1px solid #e8e1da; border-radius: 9px; background: #fffdfa; cursor: pointer; text-align: left; transition: transform .18s, border-color .18s, box-shadow .18s; }
 .frame-card:hover { transform: translateY(-2px); box-shadow: 0 5px 16px #533e3012; }
 .frame-card.selected { border: 1.5px solid var(--rose); box-shadow: 0 0 0 2px #dc897e1a; }
-.mini-frame { display: flex; flex-direction: column; gap: 3px; width: 45px; height: 61px; margin: 2px auto 7px; padding: 5px; background: var(--frame-color); box-shadow: 0 2px 6px #39271b1a; }
+.frame-card.selected::after { position: absolute; top: 7px; left: 7px; padding: 3px 5px; border-radius: 10px; background: var(--rose); color: white; content: "Selected"; font-size: 7px; font-weight: 700; }
+.frame-card:focus-visible, .category-tab:focus-visible, .flip-button:focus-visible, .camera-toggle:focus-visible { outline: 2px solid var(--rose); outline-offset: 2px; }
+.mini-frame { display: flex; flex-direction: column; gap: 3px; width: 54px; height: 72px; margin: 3px auto 8px; padding: 6px; background: var(--frame-color); box-shadow: 0 2px 6px #39271b1a; }
 .mini-frame.layout-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
 .mini-frame.layout-single { padding: 5px; }
 .mini-slot { min-height: 0; flex: 1; background: linear-gradient(145deg,#d5c0b5,#ede1d8); }
@@ -168,11 +172,11 @@ h1 em { color: var(--rose-dark); font-weight: 500; }
 .progress-label { display: block; margin-bottom: 6px; color: #7f776f; font-size: 9px; }
 .progress-track { height: 3px; overflow: hidden; border-radius: 3px; background: #f0ebe6; }
 .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--rose); transition: width .3s; }
-.capture-button { display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px; border: 0; border-radius: 5px; background: var(--rose); color: white; font-size: 10px; font-weight: 700; cursor: pointer; }
+.capture-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 9px 15px; border: 0; border-radius: 5px; background: var(--rose); color: white; font-size: 10px; font-weight: 700; cursor: pointer; }
 .capture-button:hover, .primary-button:hover, .primary-download:hover { background: var(--rose-dark); }
 .capture-button:disabled { opacity: .65; cursor: wait; }
 .capture-button-icon { font-size: 16px; line-height: 10px; }
-.camera-toggle { width: 33px; height: 33px; border-radius: 50%; color: #827a71; font-size: 14px; }
+.camera-toggle { width: 44px; height: 44px; border-radius: 50%; color: #827a71; font-size: 14px; }
 .capture-error { padding: 10px 14px; border-top: 1px solid #f2d6d1; background: #fff2f0; color: #994d46; font-size: 10px; line-height: 1.5; }
 .photo-review { margin-top: 12px; padding: 12px; border: 1px solid #e8e1da; border-radius: 8px; background: #fffdfa; }
 .review-title, .decoration-heading, .export-heading { display: flex; align-items: center; justify-content: space-between; }
@@ -328,10 +332,13 @@ h1 em { color: var(--rose-dark); font-weight: 500; }
   .capture-shortcuts { gap: 10px; }
   .intro { flex-direction: column; margin-bottom: 25px; }.session-badge { margin: 0; }
   h1 { font-size: 34px; }
-  .frame-scroller { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .frame-scroller { grid-template-columns: repeat(3, minmax(0, 1fr)); max-height: 300px; }
   .capture-options { grid-template-columns: 1fr 1fr; }.camera-select-field, .camera-filter-field { grid-column: 1 / -1; }
-  .camera-stage { min-height: 225px; }
-  .capture-footer { gap: 8px; padding: 9px; }.capture-button { padding: 9px 10px; font-size: 9px; }
+  .camera-stage { min-height: 0; aspect-ratio: 4 / 3; }
+  .capture-footer { gap: 8px; padding: 10px; }.capture-button { min-height: 44px; padding: 9px 12px; font-size: 10px; }
+  .stage-button { min-height: 44px; padding: 10px 12px; font-size: 10px; }
+  .camera-toggle { flex: 0 0 44px; }
+  .flip-button { width: 40px; height: 40px; }
   .preview-column { display: block; }
   .editor-controls { margin-top: 13px; }
   .canvas-wrap { min-height: 350px; }

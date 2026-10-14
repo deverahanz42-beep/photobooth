@@ -1,5 +1,6 @@
-const CACHE_NAME = "little-moments-v10";
-const APP_SHELL = ["/", "/index.html", "/styles.css", "/app.js", "/manifest.webmanifest", "/icon.svg"];
+const CACHE_NAME = "little-moments-v11";
+const APP_SHELL = ["", "index.html", "styles.css", "app.js", "manifest.webmanifest", "icon.svg"]
+  .map((path) => new URL(path, self.location).href);
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
@@ -26,7 +27,7 @@ self.addEventListener("fetch", (event) => {
       }
       return response;
     }).catch(() => {
-      if (event.request.mode === "navigate") return caches.match("/index.html");
+      if (event.request.mode === "navigate") return caches.match(new URL("index.html", self.location).href);
       throw new Error("This app resource is not available offline.");
     })),
   );

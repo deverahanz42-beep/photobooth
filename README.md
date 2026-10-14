@@ -18,6 +18,10 @@ For a quick tryout, connect your phone and computer to the same Wi-Fi and open t
 
 For live camera preview, app installation, and offline launch on your phone, host the static app on an HTTPS origin (for example, GitHub Pages or another static host with HTTPS), then visit that HTTPS address on the phone. Choose **Add to Home Screen** in Safari, or **Install app** in Chrome's browser menu. On iOS, select **Take a photo** if camera permission is unavailable or you prefer the built-in camera interface.
 
+## Publish with GitHub Pages
+
+The GitHub Actions workflow in `.github/workflows/deploy-pages.yml` publishes the app to <https://deverahanz42-beep.github.io/photobooth/> whenever changes are pushed to `main`. After the first workflow run completes, enable **Settings → Pages → Build and deployment → Source: GitHub Actions** if Pages is not already configured for the repository.
+
 ```sh
 npm run build
 npm start
