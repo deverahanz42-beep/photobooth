@@ -20,7 +20,7 @@ For live camera preview, app installation, and offline launch on your phone, hos
 
 ## Publish with GitHub Pages
 
-The GitHub Actions workflow in `.github/workflows/deploy-pages.yml` publishes the app to <https://deverahanz42-beep.github.io/photobooth/> whenever changes are pushed to `main`. After the first workflow run completes, enable **Settings → Pages → Build and deployment → Source: GitHub Actions** if Pages is not already configured for the repository.
+The GitHub Actions workflow in `.github/workflows/deploy-pages.yml` enables GitHub Pages and publishes the app to <https://deverahanz42-beep.github.io/photobooth/> whenever changes are pushed to `main`.
 
 ```sh
 npm run build
