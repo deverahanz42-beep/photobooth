@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f2ed">
+    <meta name="description" content="A personal photobooth studio. Capture, decorate, and save your favorite moments locally.">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Little Moments">
+    <title>Little Moments — Photobooth Studio</title>
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Little Moments home">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        <span><strong>little moments</strong><small>YOUR PERSONAL PHOTOBOOTH</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-view="studio">Studio</button>
+        <button class="nav-link" data-view="gallery">My gallery <span class="gallery-count" id="galleryCount">0</span></button>
+      </nav>
+      <div class="top-actions">
+        <span class="local-note"><span class="status-dot"></span> Saved on this device</span>
+        <button class="icon-button" id="settingsButton" title="Settings" aria-label="Settings">⚙</button>
+      </div>
+    </header>
+
+    <main class="studio-page" id="studioView">
+      <section class="intro">
+        <div>
+          <p class="eyebrow"><span class="eyebrow-star">✳</span> YOUR LITTLE PHOTO STUDIO</p>
+          <h1>Make a moment <em> yours.</em></h1>
+          <p class="intro-copy">A little light, a little laughter, and something lovely to keep.</p>
+        </div>
+        <div class="session-badge"><span class="sparkle">✦</span><span id="sessionLabel">A fresh little session</span></div>
+      </section>
+
+      <nav class="workflow-stepper" aria-label="Photobooth steps">
+        <button class="workflow-step active" type="button" data-workflow-step="1" aria-current="step">
+          <span class="workflow-step-number">01</span><span><strong>Choose your look</strong><small>Frame &amp; photo filter</small></span>
+        </button>
+        <span class="workflow-connector"></span>
+        <button class="workflow-step" type="button" data-workflow-step="2">
+          <span class="workflow-step-number">02</span><span><strong>Take your photos</strong><small>Camera or uploads</small></span>
+        </button>
+        <span class="workflow-connector"></span>
+        <button class="workflow-step" type="button" data-workflow-step="3">
+          <span class="workflow-step-number">03</span><span><strong>Keep your moment</strong><small>Preview, print or save</small></span>
+        </button>
+      </nav>
+      <p class="workflow-context" id="workflowContext">First, pick a frame and the photo filter that feels right.</p>
+
+      <div class="studio-grid">
+        <section class="workbench">
+          <div class="frame-step-content" id="frameStepContent">
+            <div class="section-heading">
+              <div><span class="step-number">01</span><h2>Choose your frame</h2></div>
+              <button class="text-button" id="randomFrameButton">✧ Surprise me</button>
+            </div>
+            <label class="frame-count-field"><span>HOW MANY PHOTOS?</span>
+              <select id="photoCount"><option value="2">2 photos</option><option value="3">3 photos</option><option value="4" selected>4 photos</option><option value="5">5 photos</option><option value="6">6 photos</option></select>
+            </label>
+            <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="Frame categories"></div>
+            <div class="frame-scroller" id="frameGallery" aria-label="Available frames"></div>
+            <div class="tool-rule"></div>
+          </div>
+          <div class="capture-step-content" id="captureStepContent">
+            <div class="section-heading capture-heading">
+            <div><span class="step-number">02</span><h2>Set the scene</h2></div>
+            <div class="capture-shortcuts">
+              <button class="text-button mobile-camera-button" id="phoneCameraButton">◎ Take a photo</button>
+              <button class="text-button" id="uploadButton">↑ Add photos</button>
+            </div>
+            <input type="file" id="photoUpload" accept="image/*" multiple hidden>
+            <input type="file" id="phoneCameraUpload" accept="image/*" capture="environment" hidden>
+            </div>
+            <div class="capture-options">
+            <label class="select-field"><span>COUNTDOWN</span>
+              <select id="timerSelect"><option value="3">3 seconds</option><option value="5" selected>5 seconds</option><option value="10">10 seconds</option><option value="0">No countdown</option></select>
+            </label>
+            <label class="select-field camera-select-field"><span>CAMERA</span>
+              <select id="cameraSelect" aria-label="Choose camera"><option value="">Default camera</option></select>
+            </label>
+            <label class="select-field camera-filter-field"><span>CAMERA FILTER</span>
+              <select id="cameraFilter" aria-label="Choose a live camera filter">
+                <option value="original">Natural</option>
+                <option value="warm">Warm glow</option>
+                <option value="mono">Black &amp; white</option>
+                <option value="vintage">Vintage film</option>
+                <option value="analog-film">Analog grain</option>
+                <option value="disposable">Disposable camera</option>
+                <option value="soft-flash">Soft flash</option>
+                <option value="pastel">Soft pastel</option>
+                <option value="pink">Rosy</option>
+                <option value="cool">Cool blue</option>
+                <option value="light-leak">Light leak</option>
+                <option value="noir">Noir</option>
+              </select>
+            </label>
+            </div>
+            <div class="capture-panel">
+            <div class="camera-stage" id="cameraStage">
+              <video id="cameraVideo" autoplay playsinline muted></video>
+              <div class="camera-placeholder" id="cameraPlaceholder">
+                <span class="camera-icon">◉</span>
+                <strong>Your camera moment starts here</strong>
+                <span>Turn on your camera or upload a few favorites</span>
+              </div>
+              <div class="camera-overlay">
+                <span class="live-pill" id="livePill"><span></span> LIVE</span>
+                <button class="flip-button" id="mirrorButton" aria-label="Toggle mirror preview" title="Mirror preview">↔</button>
+              </div>
+              <div class="countdown-overlay" id="countdownOverlay" hidden></div>
+              <div class="flash-overlay" id="flashOverlay"></div>
+              <div class="camera-corner corner-tl"></div><div class="camera-corner corner-tr"></div>
+              <div class="camera-corner corner-bl"></div><div class="camera-corner corner-br"></div>
+            </div>
+            <div class="capture-footer">
+              <div class="capture-progress">
+                <span class="progress-label" id="progressLabel">Ready when you are</span>
+                <div class="progress-track"><span id="progressBar"></span></div>
+              </div>
+              <button class="capture-button" id="captureButton"><span class="capture-button-icon">◎</span><span id="captureButtonText">Start capturing</span></button>
+              <button class="camera-toggle" id="cameraToggle" title="Turn camera on/off" aria-label="Turn camera on">◉</button>
+            </div>
+            <div class="capture-error" id="cameraError" role="status" hidden></div>
+            </div>
+            <div class="photo-review" id="photoReview" hidden>
+            <div class="review-title"><span>YOUR SHOTS</span><button class="text-button" id="retakeAllButton">↺ Retake all</button></div>
+            <div class="photo-thumbnails" id="photoThumbnails"></div>
+            </div>
+            <div class="stage-navigation"><button class="stage-button secondary-stage-button" type="button" data-step-back>← Back to frames</button><button class="stage-button primary-stage-button" type="button" data-step-next>Continue to preview <span>→</span></button></div>
+          </div>
+        </section>
+
+        <aside class="preview-column">
+          <div class="section-heading preview-heading">
+            <div><span class="step-number" id="previewStepNumber">03</span><h2 id="previewHeadingText">Make it yours</h2></div>
+            <div class="history-actions"><button class="small-icon-button" id="undoButton" aria-label="Undo" title="Undo">↶</button><button class="small-icon-button" id="redoButton" aria-label="Redo" title="Redo">↷</button></div>
+          </div>
+          <div class="preview-card">
+            <div class="preview-topline"><span id="previewEyebrow">YOUR PREVIEW</span><span class="preview-resolution" id="previewResolution">4 CUT · PORTRAIT</span></div>
+            <div class="canvas-wrap" id="canvasWrap">
+              <canvas id="photoCanvas" width="900" height="1500" aria-label="Photobooth photo preview. Drag decorations to reposition."></canvas>
+              <div class="empty-canvas-message" id="emptyCanvasMessage"><span>✳</span><strong>Your keepsake goes here</strong><small>Take or upload photos to see the magic</small></div>
+            </div>
+            <p class="drag-hint" id="previewHint">✦ Drag stickers and text to move them around</p>
+          </div>
+
+          <div class="editor-controls">
+            <div class="control-section filter-step-panel" id="filterStepPanel">
+              <h3><span>✿</span> Little finishing touches</h3>
+              <div class="filter-control-heading">
+                <label class="control-label" for="filterSelect">PHOTO FILTER</label>
+                <label class="filter-target-label" for="filterTarget">APPLY TO
+                  <select id="filterTarget" aria-label="Choose photos to filter"><option value="all">All photos</option></select>
+                </label>
+              </div>
+              <select id="filterSelect" class="full-select">
+                <option value="original">Original</option>
+                <option value="mono">Classic black &amp; white</option><option value="noir">Noir drama</option>
+                <option value="warm">Golden hour</option><option value="honey">Honey film</option><option value="sunset">Peach sunset</option>
+                <option value="cool">Cool blue</option><option value="arctic">Arctic air</option><option value="mint">Mint condition</option>
+                <option value="vintage">Vintage film</option><option value="film">35mm film</option><option value="fade">Faded print</option><option value="espresso">Darkroom espresso</option>
+                <option value="pastel">Soft pastel</option><option value="pink">Pink glow</option><option value="rose">Rosy cheeks</option><option value="lavender">Lavender haze</option>
+                <option value="dreamy">Dreamy</option><option value="glow">Soft glow</option><option value="matte">Matte portrait</option>
+                <option value="cinematic">Cinematic</option><option value="sepia">Sepia</option><option value="retro">Retro pop</option><option value="pop">Color pop</option><option value="negative">Color negative</option>
+                <option value="analog-film">Analog film · grain + vignette</option><option value="disposable">Disposable camera · light leak</option>
+                <option value="instant-print">Instant print · soft grain</option><option value="grainy">Grainy film</option>
+                <option value="light-leak">Light leak</option><option value="soft-flash">Soft camera flash</option><option value="cross-process">Cross-process</option>
+              </select>
+              <div class="slider-row"><label for="brightness">Brightness</label><input id="brightness" type="range" min="60" max="150" value="100"><output id="brightnessValue">100%</output></div>
+              <div class="slider-row"><label for="contrast">Contrast</label><input id="contrast" type="range" min="60" max="150" value="100"><output id="contrastValue">100%</output></div>
+              <div class="slider-row"><label for="saturation">Saturation</label><input id="saturation" type="range" min="0" max="180" value="100"><output id="saturationValue">100%</output></div>
+              <div class="stage-navigation filter-navigation"><button class="stage-button secondary-stage-button" type="button" data-step-back>← Frames</button><button class="stage-button primary-stage-button" type="button" data-step-next>Take photos <span>→</span></button></div>
+            </div>
+            <div class="control-section decoration-section">
+              <div class="decoration-heading"><h3><span>♡</span> Add a little extra</h3><button class="text-button" id="clearDecorationsButton">Clear</button></div>
+              <div class="sticker-tray" id="stickerTray">
+                <button data-sticker="♡" aria-label="Add heart">♡</button><button data-sticker="✿" aria-label="Add flower">✿</button><button data-sticker="✦" aria-label="Add sparkle">✦</button><button data-sticker="☁" aria-label="Add cloud">☁</button><button data-sticker="🎀" aria-label="Add bow">🎀</button><button data-sticker="🍒" aria-label="Add cherries">🍒</button><button data-sticker="★" aria-label="Add star">★</button>
+              </div>
+              <div class="text-entry"><input id="captionInput" type="text" maxlength="36" placeholder="Add a tiny caption…"><button id="addCaptionButton">Add</button></div>
+              <label class="control-label" for="footerInput">FRAME MESSAGE</label>
+              <input id="footerInput" class="full-input" type="text" maxlength="34" value="little moments · 2026">
+              <label class="color-label">FRAME COLOR <input type="color" id="frameColor" value="#fffaf5" aria-label="Frame background color"></label>
+            </div>
+            <div class="control-section export-section">
+              <div class="export-heading"><div><h3><span>↓</span> Keep this one</h3><p>High-quality, right from your device.</p></div><button class="text-button" id="saveSessionButton">Save</button></div>
+              <div class="export-buttons"><button class="download-button primary-download" id="downloadPngButton">↓ Download PNG</button><button class="download-button" id="downloadJpegButton">↓ Download JPG</button></div>
+              <button class="print-button" id="printButton">▤ &nbsp; Print your strip</button>
+              <div class="export-note">Your photos stay private on this device.</div>
+            </div>
+            <div class="stage-navigation final-navigation"><button class="stage-button secondary-stage-button" type="button" data-step-back>← Retake or change photos</button></div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <main class="gallery-page" id="galleryView" hidden>
+      <div class="gallery-header"><div><p class="eyebrow">YOUR LITTLE COLLECTION</p><h1>Moments to <em>keep.</em></h1><p class="intro-copy">A private collection, saved only on this device.</p></div><button class="primary-button" id="newSessionButton">＋ New session</button></div>
+      <div class="gallery-toolbar"><div class="gallery-filters" id="galleryFilters"><button class="filter-chip selected" data-filter="all">All moments</button><button class="filter-chip" data-filter="favorites">Favorite frames</button></div><label class="search-box"><span>⌕</span><input id="gallerySearch" type="search" placeholder="Find a moment…"></label><button class="text-button danger-text" id="clearDataButton">Clear local data</button></div>
+      <div class="saved-grid" id="savedGrid"></div>
+      <div class="gallery-empty" id="galleryEmpty" hidden><span>♡</span><h2>No keepsakes just yet</h2><p>Your saved sessions will be waiting here.</p><button class="primary-button" id="emptyStartButton">Start your first session</button></div>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="modal-backdrop" id="settingsModal" hidden>
+      <section class="settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+        <button class="modal-close" id="closeSettingsButton" aria-label="Close settings">×</button>
+        <p class="eyebrow">JUST FOR YOU</p><h2 id="settingsTitle">Studio settings</h2>
+        <label class="setting-row"><span><strong>Mirror camera preview</strong><small>Flip the preview like a mirror. Captured photos stay unflipped.</small></span><input type="checkbox" id="mirrorSetting" checked></label>
+        <label class="setting-row"><span><strong>Capture sound</strong><small>A gentle beep before each picture.</small></span><input type="checkbox" id="soundSetting"></label>
+        <label class="setting-row"><span><strong>Save favorite frames</strong><small>Keep favorites on this device for next time.</small></span><input type="checkbox" id="favoritesSetting" checked></label>
+        <p class="privacy-copy">Photos and saved sessions are stored locally in your browser. They are not uploaded. Clearing browser data may remove them.</p>
+      </section>
+    </div>
+    <footer class="site-footer"><span>Made with a little bit of ✳</span><span>YOUR PHOTOS. YOUR DEVICE. YOUR MOMENTS.</span></footer>
+  </body>
+</html>
