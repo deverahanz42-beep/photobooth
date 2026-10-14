@@ -175,6 +175,9 @@ function setWorkflowStep(step, { scroll = true } = {}) {
     if (buttonStep === nextStep) button.setAttribute("aria-current", "step");
     else button.removeAttribute("aria-current");
   });
+  document.querySelectorAll(".workflow-connector").forEach((connector, index) => {
+    connector.classList.toggle("complete", index < nextStep - 1);
+  });
   $("#previewStepNumber").textContent = nextStep === 1 ? "01" : "03";
   $("#previewHeadingText").textContent = nextStep === 1 ? "Customize your strip" : "Make it yours";
   $("#previewEyebrow").textContent = nextStep === 1 ? "FRAME PREVIEW" : "YOUR PREVIEW";
@@ -230,12 +233,13 @@ function drawFrameGallery() {
     card.tabIndex = 0;
     card.setAttribute("role", "button");
     card.setAttribute("aria-pressed", String(frame.id === state.frameId));
+    card.setAttribute("aria-label", `${frame.name}, ${frame.category}${frame.id === state.frameId ? ", selected" : ""}`);
     const mini = document.createElement("span");
     mini.className = `mini-frame layout-${frame.layout}`;
     mini.style.setProperty("--frame-color", frame.background);
     mini.style.setProperty("--frame-accent", frame.accent);
     mini.dataset.design = frame.design || frame.id;
-    const slotCount = frame.layout === "grid" ? 4 : 3;
+    const slotCount = Math.min(state.photoCount, 6);
     for (let i = 0; i < slotCount; i++) {
       const slot = document.createElement("i");
       slot.className = "mini-slot";
@@ -1339,6 +1343,7 @@ function bindEvents() {
   });
   ui.photoCount.addEventListener("change", () => {
     state.photoCount = Number(ui.photoCount.value);
+    drawFrameGallery();
     renderEverything(); saveLastUsed();
   });
   ui.timerSelect.addEventListener("change", () => { state.timer = Number(ui.timerSelect.value); });
@@ -1454,7 +1459,7 @@ function bindEvents() {
     state.objectUrls.forEach((url) => URL.revokeObjectURL(url));
   });
   if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
-    navigator.serviceWorker.register("/service-worker.js").catch((error) => {
+    navigator.serviceWorker.register("./service-worker.js").catch((error) => {
       console.warn("Offline app support could not be enabled.", error);
     });
   }

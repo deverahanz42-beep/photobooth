@@ -10,14 +10,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Little Moments">
     <title>Little Moments — Photobooth Studio</title>
-    <link rel="manifest" href="/manifest.webmanifest">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.svg">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" href="./icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="./icon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css">
-    <script type="module" src="/app.js"></script>
+    <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="./app.js"></script>
   </head>
   <body>
     <header class="topbar">
@@ -58,7 +58,7 @@
           <span class="workflow-step-number">03</span><span><strong>Keep your moment</strong><small>Preview, print or save</small></span>
         </button>
       </nav>
-      <p class="workflow-context" id="workflowContext">First, pick a frame and the photo filter that feels right.</p>
+      <p class="workflow-context" id="workflowContext">Choose a frame and photo count, then preview your strip before picture time.</p>
 
       <div class="studio-grid">
         <section class="workbench">
@@ -166,18 +166,22 @@
                   <select id="filterTarget" aria-label="Choose photos to filter"><option value="all">All photos</option></select>
                 </label>
               </div>
-              <select id="filterSelect" class="full-select">
-                <option value="original">Original</option>
-                <option value="mono">Classic black &amp; white</option><option value="noir">Noir drama</option>
-                <option value="warm">Golden hour</option><option value="honey">Honey film</option><option value="sunset">Peach sunset</option>
-                <option value="cool">Cool blue</option><option value="arctic">Arctic air</option><option value="mint">Mint condition</option>
-                <option value="vintage">Vintage film</option><option value="film">35mm film</option><option value="fade">Faded print</option><option value="espresso">Darkroom espresso</option>
-                <option value="pastel">Soft pastel</option><option value="pink">Pink glow</option><option value="rose">Rosy cheeks</option><option value="lavender">Lavender haze</option>
-                <option value="dreamy">Dreamy</option><option value="glow">Soft glow</option><option value="matte">Matte portrait</option>
-                <option value="cinematic">Cinematic</option><option value="sepia">Sepia</option><option value="retro">Retro pop</option><option value="pop">Color pop</option><option value="negative">Color negative</option>
-                <option value="analog-film">Analog film · grain + vignette</option><option value="disposable">Disposable camera · light leak</option>
-                <option value="instant-print">Instant print · soft grain</option><option value="grainy">Grainy film</option>
-                <option value="light-leak">Light leak</option><option value="soft-flash">Soft camera flash</option><option value="cross-process">Cross-process</option>
+              <select id="filterSelect" class="full-select" aria-label="Choose photo filter">
+                <optgroup label="Natural &amp; classic">
+                  <option value="original">Original</option><option value="mono">Classic black &amp; white</option><option value="noir">Noir drama</option><option value="sepia">Sepia</option>
+                </optgroup>
+                <optgroup label="Warm &amp; vintage">
+                  <option value="warm">Golden hour</option><option value="honey">Honey film</option><option value="sunset">Peach sunset</option><option value="vintage">Vintage film</option><option value="film">35mm film</option><option value="fade">Faded print</option><option value="espresso">Darkroom espresso</option>
+                </optgroup>
+                <optgroup label="Cool &amp; pastel">
+                  <option value="cool">Cool blue</option><option value="arctic">Arctic air</option><option value="mint">Mint condition</option><option value="pastel">Soft pastel</option><option value="pink">Pink glow</option><option value="rose">Rosy cheeks</option><option value="lavender">Lavender haze</option>
+                </optgroup>
+                <optgroup label="Creative">
+                  <option value="dreamy">Dreamy</option><option value="glow">Soft glow</option><option value="matte">Matte portrait</option><option value="cinematic">Cinematic</option><option value="retro">Retro pop</option><option value="pop">Color pop</option><option value="negative">Color negative</option>
+                </optgroup>
+                <optgroup label="Camera &amp; film">
+                  <option value="analog-film">Analog film · grain + vignette</option><option value="disposable">Disposable camera · light leak</option><option value="instant-print">Instant print · soft grain</option><option value="grainy">Grainy film</option><option value="light-leak">Light leak</option><option value="soft-flash">Soft camera flash</option><option value="cross-process">Cross-process</option>
+                </optgroup>
               </select>
               <div class="slider-row"><label for="brightness">Brightness</label><input id="brightness" type="range" min="60" max="150" value="100"><output id="brightnessValue">100%</output></div>
               <div class="slider-row"><label for="contrast">Contrast</label><input id="contrast" type="range" min="60" max="150" value="100"><output id="contrastValue">100%</output></div>
